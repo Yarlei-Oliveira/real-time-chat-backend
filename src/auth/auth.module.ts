@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthResolver } from './auth.resolver';
@@ -6,6 +7,7 @@ import { PassportModule } from '@nestjs/passport';
 import { UsersModule } from 'src/users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
+require('dotenv').config();
 
 @Module({
   imports: [
@@ -13,7 +15,7 @@ import { JwtStrategy } from './jwt.strategy';
     UsersModule,
     JwtModule.register({
       signOptions: { expiresIn: '60s' },
-      secret: 'secret',
+      secret: process.env.secret,
     }),
   ],
   providers: [AuthService, AuthResolver, LocalStrategy, JwtStrategy],
